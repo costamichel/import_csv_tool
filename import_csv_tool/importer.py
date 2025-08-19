@@ -52,10 +52,11 @@ class Importer:
         print(f"Arquivo '{filename}' importado com sucesso para tabela '{table_name}'.")
 
     def _normalize_name(self, name, prefix=None):
+        # Remove extensão .csv primeiro
+        name = re.sub(r'\.csv$', '', name, flags=re.IGNORECASE)
         # Substitui espaços, parênteses, barras, hífen e outros caracteres não alfanuméricos por underline
         name = re.sub(r'[^a-zA-Z0-9]', '_', name)
         name = name.lower()
-        name = re.sub(r'\.csv$', '', name)
         # Remove underlines duplicados
         name = re.sub(r'_+', '_', name)
         # Remove underlines do início/fim

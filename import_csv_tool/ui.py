@@ -26,10 +26,10 @@ class ImportTab(ttk.Frame):
         self.db_host = tk.StringVar(value="localhost")
         self.db_port = tk.StringVar(value="5433")
         self.db_user = tk.StringVar(value="postgres")
-        self.db_password = tk.StringVar(value="postgres")   # EXCLUIR VALOR PADRAO DEPOIS
-        self.db_name = tk.StringVar(value="lagoasanta_livro")   # EXCLUIR VALOR PADRAO DEPOIS
+        self.db_password = tk.StringVar()  
+        self.db_name = tk.StringVar() 
         self.csv_separator = tk.StringVar(value=";")
-        self.table_prefix = tk.StringVar(value="extracaofly")   # EXCLUIR VALOR PADRAO DEPOIS
+        self.table_prefix = tk.StringVar()
         self.overwrite = tk.BooleanVar()
         self.csv_files = []
         self.selected_files = []
