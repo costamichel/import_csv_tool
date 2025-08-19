@@ -28,8 +28,17 @@ class Importer:
         # Normalizar nomes das colunas
         df.columns = [self._normalize_name(col) for col in df.columns]
         cur = self.conn.cursor()
+        # Verifica se a tabela existe
+        cur.execute(f"SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = %s);", (table_name,))
+        exists = cur.fetchone()[0]
+        if exists and not self.params["overwrite"]:
+            print(f"Tabela '{table_name}' já existe. Importação ignorada para o arquivo '{filename}'.")
+            cur.close()
+            return  # Ignora importação se tabela existe e não deve sobrescrever
         if self.params["overwrite"]:
+            print(f"Sobrescrevendo tabela '{table_name}' para o arquivo '{filename}'.")
             cur.execute(f"DROP TABLE IF EXISTS {table_name} CASCADE;")
+        print(f"Importando arquivo '{filename}' para tabela '{table_name}'...")
         # Criar tabela
         create_table_sql = self._generate_create_table_sql(table_name, df)
         cur.execute(create_table_sql)
@@ -40,6 +49,7 @@ class Importer:
             cur.execute(f"INSERT INTO {table_name} ({cols}) VALUES ({vals});")
         self.conn.commit()
         cur.close()
+        print(f"Arquivo '{filename}' importado com sucesso para tabela '{table_name}'.")
 
     def _normalize_name(self, name, prefix=None):
         # Substitui espaços, parênteses, barras, hífen e outros caracteres não alfanuméricos por underline
