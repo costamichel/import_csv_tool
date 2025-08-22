@@ -13,6 +13,10 @@ venv/
 # CSVs
 *.csv
 
+# Oracle bigtables utils
+utils/extract_oracle_bigtables/chunk_*.csv
+utils/extract_oracle_bigtables/final.csv
+
 # OS
 .DS_Store
 Thumbs.db
