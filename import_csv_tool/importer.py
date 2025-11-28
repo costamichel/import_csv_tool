@@ -19,10 +19,15 @@ class Importer:
 
     def import_csv(self, filepath, filename):
         self._connect()
-        try:
-            df = pd.read_csv(filepath, sep=self.params["separator"], encoding="utf-8")
-        except UnicodeDecodeError:
-            df = pd.read_csv(filepath, sep=self.params["separator"], encoding="latin1")
+        print(f"Lendo arquivo '{filename}'...")
+        # Detecta tipo de arquivo e lê de acordo
+        if filepath.lower().endswith(('.xls', '.xlsx')):
+            df = pd.read_excel(filepath)
+        else:
+            try:
+                df = pd.read_csv(filepath, sep=self.params["separator"], encoding="utf-8")
+            except UnicodeDecodeError:
+                df = pd.read_csv(filepath, sep=self.params["separator"], encoding="latin1")
         # Normalizar nome da tabela
         table_name = self._normalize_name(filename, self.params["prefix"])
         # Normalizar nomes das colunas
@@ -52,8 +57,8 @@ class Importer:
         print(f"Arquivo '{filename}' importado com sucesso para tabela '{table_name}'.")
 
     def _normalize_name(self, name, prefix=None):
-        # Remove extensão .csv primeiro
-        name = re.sub(r'\.csv$', '', name, flags=re.IGNORECASE)
+        # Remove extensão .csv, .xls, .xlsx primeiro
+        name = re.sub(r'\.(csv|xls|xlsx)$', '', name, flags=re.IGNORECASE)
         # Substitui espaços, parênteses, barras, hífen e outros caracteres não alfanuméricos por underline
         name = re.sub(r'[^a-zA-Z0-9]', '_', name)
         name = name.lower()

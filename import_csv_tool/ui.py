@@ -37,14 +37,14 @@ class ImportTab(ttk.Frame):
 
     def _build_ui(self):
         # Pasta
-        folder_frame = ttk.LabelFrame(self, text="Escolha a pasta com arquivos CSV")
+        folder_frame = ttk.LabelFrame(self, text="Escolha a pasta com arquivos CSV ou Excel")
         folder_frame.pack(fill=tk.X, padx=10, pady=5)
         ttk.Entry(folder_frame, textvariable=self.folder_path, width=60).pack(side=tk.LEFT, padx=5)
         ttk.Button(folder_frame, text="Abrir", command=self._choose_folder).pack(side=tk.LEFT, padx=5)
         ttk.Button(folder_frame, text="Listar arquivos", command=self._list_csv_files).pack(side=tk.LEFT, padx=5)
 
         # Lista de arquivos
-        self.files_frame = ttk.LabelFrame(self, text="Selecione os arquivos CSV para importar")
+        self.files_frame = ttk.LabelFrame(self, text="Selecione os arquivos CSV/Excel para importar")
         self.files_frame.pack(fill=tk.BOTH, padx=10, pady=5, expand=True)
         # Botões selecionar/desmarcar todos acima da lista
         btn_frame = ttk.Frame(self.files_frame)
@@ -97,7 +97,7 @@ class ImportTab(ttk.Frame):
         if not folder:
             messagebox.showwarning("Atenção", "Selecione uma pasta primeiro.")
             return
-        self.csv_files = [f for f in os.listdir(folder) if f.lower().endswith('.csv')]
+        self.csv_files = [f for f in os.listdir(folder) if f.lower().endswith(('.csv', '.xls', '.xlsx'))]
         self.files_listbox.delete(0, tk.END)
         for f in self.csv_files:
             self.files_listbox.insert(tk.END, f)

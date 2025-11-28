@@ -10,8 +10,10 @@ venv/
 # VSCode
 .vscode/
 
-# CSVs
+# CSVs e Excel
 *.csv
+*.xls
+*.xlsx
 
 # Oracle bigtables utils
 utils/extract_oracle_bigtables/chunk_*.csv

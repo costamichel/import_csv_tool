@@ -3,8 +3,8 @@
 Ferramenta para importar arquivos CSV para o PostgreSQL ou exportar tabelas do banco para CSV.
 
 ## Funcionalidades
-- Importação de múltiplos arquivos CSV para PostgreSQL
-- Configuração de conexão, separador, prefixo, sobrescrever tabela
+- Importação de múltiplos arquivos CSV e Excel (.xls, .xlsx) para PostgreSQL
+- Configuração de conexão, separador (para CSV), prefixo, sobrescrever tabela
 - Interface gráfica em Tkinter
 - Exportação (em breve)
 
@@ -53,14 +53,17 @@ python -m import_csv_tool
 ```
 
 ## Observações
-- O programa tenta importar arquivos CSV usando UTF-8. Se houver erro de leitura, tenta automaticamente ISO-8859-1 (Latin-1).
+- Para arquivos CSV: o programa tenta importar usando UTF-8. Se houver erro de leitura, tenta automaticamente ISO-8859-1 (Latin-1).
+- Para arquivos Excel (.xls, .xlsx): a leitura é feita diretamente pelo pandas, sem necessidade de configurar separador.
 - Nomes de tabelas e colunas são normalizados: espaços, hífens, parênteses, barras e caracteres especiais são convertidos para underline. Nomes que começam com número recebem prefixo `col_`.
 - Todos os dados são importados como texto (TEXT) por padrão.
 
 
 ## Dependências
 - [psycopg2-binary](https://pypi.org/project/psycopg2-binary/): conexão com PostgreSQL
-- [pandas](https://pypi.org/project/pandas/): leitura de CSV
+- [pandas](https://pypi.org/project/pandas/): leitura de CSV e Excel
+- [openpyxl](https://pypi.org/project/openpyxl/): leitura de arquivos Excel .xlsx
+- [xlrd](https://pypi.org/project/xlrd/): leitura de arquivos Excel .xls
 - [oracledb](https://pypi.org/project/oracledb/): (apenas para o script de extração Oracle)
 
 ## Reportar problemas
