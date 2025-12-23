@@ -30,6 +30,7 @@ class ImportTab(ttk.Frame):
         self.db_name = tk.StringVar() 
         self.csv_separator = tk.StringVar(value=";")
         self.table_prefix = tk.StringVar()
+        self.clean_prefix = tk.StringVar()
         self.overwrite = tk.BooleanVar()
         self.csv_files = []
         self.selected_files = []
@@ -75,6 +76,8 @@ class ImportTab(ttk.Frame):
         ttk.Entry(params_frame, textvariable=self.csv_separator, width=3).pack(side=tk.LEFT)
         ttk.Label(params_frame, text="Prefixo da tabela:").pack(side=tk.LEFT, padx=10)
         ttk.Entry(params_frame, textvariable=self.table_prefix, width=15).pack(side=tk.LEFT)
+        ttk.Label(params_frame, text="Limpeza de prefixo:").pack(side=tk.LEFT, padx=10)
+        ttk.Entry(params_frame, textvariable=self.clean_prefix, width=15).pack(side=tk.LEFT)
         ttk.Checkbutton(params_frame, text="Sobrescrever tabela se existir", variable=self.overwrite).pack(side=tk.LEFT, padx=10)
 
         # Botão de importação
@@ -116,6 +119,7 @@ class ImportTab(ttk.Frame):
             "dbname": self.db_name.get(),
             "separator": self.csv_separator.get(),
             "prefix": self.table_prefix.get(),
+            "clean_prefix": self.clean_prefix.get(),
             "overwrite": self.overwrite.get(),
         }
         folder = self.folder_path.get()
@@ -124,7 +128,7 @@ class ImportTab(ttk.Frame):
         for filename in selected_files:
             filepath = os.path.join(folder, filename)
             try:
-                table_name = importer._normalize_name(filename, params["prefix"])
+                table_name = importer._normalize_name(filename, params["prefix"], params.get("clean_prefix"))
                 importer.import_csv(filepath, filename)
             except Exception as e:
                 success = False

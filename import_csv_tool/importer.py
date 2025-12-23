@@ -29,7 +29,7 @@ class Importer:
             except UnicodeDecodeError:
                 df = pd.read_csv(filepath, sep=self.params["separator"], encoding="latin1")
         # Normalizar nome da tabela
-        table_name = self._normalize_name(filename, self.params["prefix"])
+        table_name = self._normalize_name(filename, self.params["prefix"], self.params.get("clean_prefix"))
         # Normalizar nomes das colunas
         df.columns = [self._normalize_name(col) for col in df.columns]
         cur = self.conn.cursor()
@@ -56,9 +56,13 @@ class Importer:
         cur.close()
         print(f"Arquivo '{filename}' importado com sucesso para tabela '{table_name}'.")
 
-    def _normalize_name(self, name, prefix=None):
+    def _normalize_name(self, name, prefix=None, clean_prefix=None):
         # Remove extensão .csv, .xls, .xlsx primeiro
         name = re.sub(r'\.(csv|xls|xlsx)$', '', name, flags=re.IGNORECASE)
+        # Remove prefixo inicial informado (case-insensitive), se houver
+        if clean_prefix:
+            pattern = re.compile(r'^' + re.escape(clean_prefix), flags=re.IGNORECASE)
+            name = pattern.sub('', name)
         # Substitui espaços, parênteses, barras, hífen e outros caracteres não alfanuméricos por underline
         name = re.sub(r'[^a-zA-Z0-9]', '_', name)
         name = name.lower()

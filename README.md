@@ -5,6 +5,7 @@ Ferramenta para importar arquivos CSV para o PostgreSQL ou exportar tabelas do b
 ## Funcionalidades
 - Importação de múltiplos arquivos CSV e Excel (.xls, .xlsx) para PostgreSQL
 - Configuração de conexão, separador (para CSV), prefixo, sobrescrever tabela
+  - Campo adicional: "Limpeza de prefixo" remove um prefixo do nome do arquivo antes de criar a tabela (ex.: valor "CS_" transforma "CS_Aluno.csv" em tabela "aluno").
 - Interface gráfica em Tkinter
 - Exportação (em breve)
 
@@ -56,6 +57,7 @@ python -m import_csv_tool
 - Para arquivos CSV: o programa tenta importar usando UTF-8. Se houver erro de leitura, tenta automaticamente ISO-8859-1 (Latin-1).
 - Para arquivos Excel (.xls, .xlsx): a leitura é feita diretamente pelo pandas, sem necessidade de configurar separador.
 - Nomes de tabelas e colunas são normalizados: espaços, hífens, parênteses, barras e caracteres especiais são convertidos para underline. Nomes que começam com número recebem prefixo `col_`.
+ - Se informado, o campo "Limpeza de prefixo" é aplicado ao início do nome do arquivo, removendo-o antes da normalização e antes do prefixo opcional ser adicionado.
 - Todos os dados são importados como texto (TEXT) por padrão.
 
 
