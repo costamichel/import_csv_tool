@@ -15,6 +15,7 @@ Ferramenta para importar arquivos CSV para o PostgreSQL ou exportar tabelas do b
 - `tests/` - Testes automatizados
 - `utils/` - Scripts utilitários independentes
   - `extract_oracle_bigtables/` - Script para extração de grandes tabelas Oracle em CSV
+  - `replace_char.py` - Script para substituir caracteres em arquivos
 ## Script de extração Oracle (independente)
 
 Na pasta `utils/extract_oracle_bigtables` há um script chamado `extractor_oracle.py` para baixar grandes tabelas do Oracle em arquivos CSV divididos em chunks e juntar em um único arquivo final.
@@ -30,6 +31,28 @@ Na pasta `utils/extract_oracle_bigtables` há um script chamado `extractor_oracl
   python utils/extract_oracle_bigtables/extractor_oracle.py
   ```
 4. Siga as instruções do script para juntar os arquivos em um único CSV final.
+
+**Observação:**
+Esse script é totalmente independente da ferramenta principal de importação/exportação de CSV para PostgreSQL.
+
+## Script de substituição de caracteres (independente)
+
+Na pasta `utils` há um script chamado `replace_char.py` para substituir um caractere por outro em arquivos.
+
+**Como usar:**
+1. Edite o arquivo `replace_char.py` e configure:
+   - `FILE_PATH`: caminho do arquivo a ser processado
+   - `OLD_CHAR`: caractere a ser substituído
+   - `NEW_CHAR`: caractere substituto
+2. Instale a dependência (caso ainda não tenha):
+   ```bash
+   pip install tqdm
+   ```
+3. Execute o script:
+   ```bash
+   python utils/replace_char.py
+   ```
+4. O script processará o arquivo com barra de progresso e substituirá o arquivo original.
 
 **Observação:**
 Esse script é totalmente independente da ferramenta principal de importação/exportação de CSV para PostgreSQL.
