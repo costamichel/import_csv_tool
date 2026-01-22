@@ -57,6 +57,32 @@ Na pasta `utils` há um script chamado `replace_char.py` para substituir um cara
 **Observação:**
 Esse script é totalmente independente da ferramenta principal de importação/exportação de CSV para PostgreSQL.
 
+## Script de limpeza de espaços em branco no PostgreSQL (independente)
+
+Na pasta `utils` há um script chamado `trim_text_postgres.py` para aplicar TRIM() em todas as colunas de tipo texto de tabelas PostgreSQL, removendo espaços em branco no início e fim dos valores.
+
+**Como usar:**
+1. Edite o arquivo `trim_text_postgres.py` e configure:
+   - `DB_HOST`: endereço do servidor PostgreSQL (ex.: `"localhost"`)
+   - `DB_PORT`: porta do PostgreSQL (ex.: `5432`)
+   - `DB_NAME`: nome do banco de dados (ex.: `"vendas_db"`)
+   - `DB_USER`: usuário do banco (ex.: `"postgres"`)
+   - `DB_PASSWORD`: senha do usuário (ex.: `"MinhaSenh@123"`)
+   - `PREFIX`: prefixo das tabelas a processar (ex.: `"tb_"` ou `None` para todas)
+2. Instale as dependências (caso ainda não tenha):
+   ```bash
+   pip install psycopg2-binary tqdm
+   ```
+3. Execute o script:
+   ```bash
+   python utils/trim_text_postgres.py
+   ```
+4. O script mostrará quantas tabelas e colunas serão processadas e pedirá confirmação antes de continuar.
+5. Durante a execução, uma barra de progresso mostrará qual tabela.coluna está sendo atualizada.
+
+**Observação:**
+Esse script é totalmente independente da ferramenta principal de importação/exportação de CSV para PostgreSQL. Ele apenas atualiza registros que possuem espaços em branco no início ou fim dos valores.
+
 ## Requisitos
 - Python 3.7+
 - Instalar dependências:
