@@ -29,7 +29,7 @@ DB_PASSWORD = "postgres"      # Exemplo: "MinhaSenh@123"
 # Se definido (não None), apenas tabelas que começam com este prefixo serão processadas
 # Exemplo: "tb_" processará apenas "tb_clientes", "tb_vendas", etc.
 # Para processar todas as tabelas, defina como None
-PREFIX = "cloud_"                  # Exemplo: "tb_" ou None para todas as tabelas
+PREFIX = "sge_alun"                  # Exemplo: "tb_" ou None para todas as tabelas
 
 # ============================================================================
 # CÓDIGO PRINCIPAL
