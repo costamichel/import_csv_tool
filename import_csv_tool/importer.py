@@ -2,6 +2,13 @@ import psycopg2
 import pandas as pd
 import re
 
+reserved_words_replace = {
+    "group": "group_", 
+    "order": "order_",
+    "select": "select_",
+    "references": "references_",
+}
+
 class Importer:
     def __init__(self, params):
         self.params = params
@@ -46,7 +53,13 @@ class Importer:
         print(f"Importando arquivo '{filename}' para tabela '{table_name}'...")
         # Criar tabela
         create_table_sql = self._generate_create_table_sql(table_name, df)
-        cur.execute(create_table_sql)
+        try:
+            cur.execute(create_table_sql)
+        except Exception as e:
+            print(create_table_sql)
+            print(f"Erro ao criar tabela '{table_name}': {e}")
+            cur.close()
+            return
         # Inserir dados
         for _, row in df.iterrows():
             cols = ','.join(df.columns)
@@ -75,6 +88,9 @@ class Importer:
             name = f'col_{name}'
         if prefix:
             name = f"{prefix}_{name}"
+        # Substitui palavras reservadas
+        if name in reserved_words_replace:
+            name = reserved_words_replace[name]
         return name
 
     def _generate_create_table_sql(self, table_name, df):
