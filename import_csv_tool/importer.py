@@ -7,6 +7,7 @@ reserved_words_replace = {
     "order": "order_",
     "select": "select_",
     "references": "references_",
+    "table": "table_",
 }
 
 class Importer:
