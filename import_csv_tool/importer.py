@@ -35,7 +35,11 @@ class Importer:
             try:
                 df = pd.read_csv(filepath, sep=self.params["separator"], encoding="utf-8")
             except UnicodeDecodeError:
+                print("Tentando ler com encoding 'latin1' devido a erro de decodificação...")
                 df = pd.read_csv(filepath, sep=self.params["separator"], encoding="latin1")
+        # Trim em colunas de texto
+        for col in df.select_dtypes(include='object').columns:
+            df[col] = df[col].str.strip()
         # Normalizar nome da tabela
         table_name = self._normalize_name(filename, self.params["prefix"], self.params.get("clean_prefix"))
         # Normalizar nomes das colunas
